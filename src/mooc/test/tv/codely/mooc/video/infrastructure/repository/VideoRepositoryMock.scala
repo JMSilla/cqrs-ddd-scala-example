@@ -20,4 +20,9 @@ protected[video] trait VideoRepositoryMock extends MockFactory {
     (repository.all _)
       .expects()
       .returning(Future.successful(videos))
+      
+   protected def repositoryShouldFindVideoAsLastFromCreator(video: Video): Unit =
+    (repository.lastVideoCreatedByUserWithId _)
+      .expects(video.creatorId)
+      .returning(Some(video))
 }

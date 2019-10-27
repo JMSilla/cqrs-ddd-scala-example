@@ -6,6 +6,7 @@ import tv.codely.mooc.shared.infrastructure.doobie.TypesConversions._
 import tv.codely.shared.infrastructure.doobie.DoobieDbConnection
 
 import scala.concurrent.{ExecutionContext, Future}
+import tv.codely.mooc.shared.domain.user.UserId
 
 final class DoobieMySqlVideoRepository(db: DoobieDbConnection)(implicit executionContext: ExecutionContext)
     extends VideoRepository {
@@ -17,4 +18,12 @@ final class DoobieMySqlVideoRepository(db: DoobieDbConnection)(implicit executio
       .transact(db.transactor)
       .unsafeToFuture()
       .map(_ => ())
+  
+  override def lastVideoCreatedByUserWithId(userId: UserId): Option[Video] = {
+    sql"SELECT video_id, title, duration_in_seconds, category, creator_id FROM videos WHERE creator_id = ${userId} ORDER BY updated_at DESC"
+    .query[Video].to[List]
+    .transact(db.transactor)
+    .unsafeRunSync
+    .headOption
+  }
 }
