@@ -9,6 +9,8 @@ import tv.codely.shared.domain.logger.Logger
 import tv.codely.shared.infrastructure.bus.rabbitmq.{RabbitMqChannelFactory, RabbitMqConfig, RabbitMqMessagePublisher}
 import tv.codely.shared.infrastructure.doobie.{DoobieDbConnection, JdbcConfig}
 import tv.codely.shared.infrastructure.logger.ScalaLoggingLogger
+import tv.codely.shared.domain.actionlogger.ActionLogger
+import tv.codely.shared.infrastructure.fileactionlogger.FileActionLogger
 
 final class SharedModuleDependencyContainer(
     actorSystemName: String,
@@ -25,4 +27,5 @@ final class SharedModuleDependencyContainer(
   val messagePublisher: MessagePublisher = new RabbitMqMessagePublisher(rabbitMqChannelFactory)
 
   val logger: Logger = new ScalaLoggingLogger
+  val actionLogger: ActionLogger = new FileActionLogger(logger)
 }

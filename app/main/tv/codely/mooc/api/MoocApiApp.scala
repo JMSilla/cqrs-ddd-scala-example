@@ -33,7 +33,8 @@ object MoocApiApp {
 
     val container = new EntryPointDependencyContainer(
       new UserModuleDependencyContainer(sharedDependencies.doobieDbConnection, sharedDependencies.messagePublisher),
-      new VideoModuleDependencyContainer(sharedDependencies.doobieDbConnection, sharedDependencies.messagePublisher)
+      new VideoModuleDependencyContainer(sharedDependencies.doobieDbConnection,
+          sharedDependencies.messagePublisher, sharedDependencies.actionLogger)
     )
 
     val routes = new Routes(container)

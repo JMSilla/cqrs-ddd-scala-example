@@ -9,6 +9,7 @@ import tv.codely.shared.infrastructure.bus.rabbitmq.{RabbitMqChannelFactory, Rab
 import tv.codely.shared.infrastructure.dependency_injection.SharedModuleDependencyContainer
 import tv.codely.shared.infrastructure.doobie.{DoobieDbConnection, JdbcConfig}
 import tv.codely.shared.infrastructure.unit.UnitTestCase
+import tv.codely.shared.domain.actionlogger.ActionLogger
 
 trait IntegrationTestCase extends UnitTestCase {
   private val actorSystemName = "cqrs-ddd-scala-example-integration-test"
@@ -25,4 +26,5 @@ trait IntegrationTestCase extends UnitTestCase {
   protected val rabbitMqChannelFactory: RabbitMqChannelFactory = new RabbitMqChannelFactory(publisherConfig)
   protected val messagePublisher: MessagePublisher             = sharedDependencies.messagePublisher
   protected val logger: Logger                                 = sharedDependencies.logger
+  protected val actionLogger: ActionLogger = sharedDependencies.actionLogger
 }

@@ -8,13 +8,16 @@ import tv.codely.mooc.video.infrastructure.repository.DoobieMySqlVideoRepository
 import scala.concurrent.ExecutionContext
 
 import tv.codely.shared.domain.bus.MessagePublisher
+import tv.codely.shared.domain.actionlogger.ActionLogger
 
 final class VideoModuleDependencyContainer(
     doobieDbConnection: DoobieDbConnection,
-    messagePublisher: MessagePublisher
+    messagePublisher: MessagePublisher,
+    actionLogger: ActionLogger
 )(implicit executionContext: ExecutionContext) {
   val repository: VideoRepository = new DoobieMySqlVideoRepository(doobieDbConnection)
 
   val videosSearcher: VideosSearcher = new VideosSearcher(repository)
-  val videoCreator: VideoCreator     = new VideoCreator(repository, messagePublisher)
+  val videoCreator: VideoCreator     = new VideoCreator(repository, messagePublisher,
+      actionLogger)
 }
