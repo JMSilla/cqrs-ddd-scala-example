@@ -7,6 +7,7 @@ import tv.codely.shared.infrastructure.doobie.DoobieDbConnection
 
 import scala.concurrent.{ExecutionContext, Future}
 import tv.codely.mooc.shared.domain.user.UserId
+import tv.codely.mooc.video.domain.VideoId
 
 final class DoobieMySqlVideoRepository(db: DoobieDbConnection)(implicit executionContext: ExecutionContext)
     extends VideoRepository {
@@ -25,5 +26,13 @@ final class DoobieMySqlVideoRepository(db: DoobieDbConnection)(implicit executio
     .transact(db.transactor)
     .unsafeRunSync
     .headOption
+  }
+    
+  override def find(id: VideoId): Option[Video] = {
+    sql"SELECT video_id, title, duration_in_seconds, category, creator_id FROM videos WHERE video_id = ${id}"
+    .query[Video]
+    .option
+    .transact(db.transactor)
+    .unsafeRunSync
   }
 }
