@@ -36,4 +36,9 @@ protected[video] trait VideoRepositoryMock extends MockFactory {
     (repository.lastVideoCreatedByUserWithId _)
       .expects(video.creatorId)
       .returning(Some(video))
+  
+  protected def repositoryShouldUpdateVideo(video: Video): Unit = 
+    (repository.update _)
+      .expects(video)
+      .returning(Unit)
 }

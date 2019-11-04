@@ -35,4 +35,12 @@ final class DoobieMySqlVideoRepository(db: DoobieDbConnection)(implicit executio
     .transact(db.transactor)
     .unsafeRunSync
   }
+  
+  override def update(video: Video): Unit = {
+    sql"""UPDATE videos SET title = ${video.title},
+          duration_in_seconds = ${video.duration}, category = ${video.category}
+          WHERE video_id = ${video.id}"""
+      .update.run.transact(db.transactor)
+      .unsafeRunSync
+  }
 }

@@ -14,4 +14,10 @@ object Video {
   )
 }
 
-case class Video(id: VideoId, title: VideoTitle, duration: VideoDuration, category: VideoCategory, creatorId: UserId)
+case class Video(id: VideoId, var _title: VideoTitle, duration: VideoDuration, category: VideoCategory, creatorId: UserId) {
+  def title = _title
+  
+  def updateTitle(title: VideoTitle): Unit = {
+    this._title = title
+  }
+}

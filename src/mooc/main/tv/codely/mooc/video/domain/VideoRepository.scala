@@ -10,5 +10,7 @@ trait VideoRepository {
   
   def save(video: Video): Future[Unit]
   
+  def update(video: Video): Unit
+  
   def lastVideoCreatedByUserWithId(userId: UserId): Option[Video]
 }
